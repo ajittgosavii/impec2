@@ -9,13 +9,9 @@ import os
 import time
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Set AWS credentials from .env file
-os.environ['AWS_ACCESS_KEY_ID'] = os.getenv('AWS_ACCESS_KEY_ID', '')
-os.environ['AWS_SECRET_ACCESS_KEY'] = os.getenv('AWS_SECRET_ACCESS_KEY', '')
-os.environ['AWS_DEFAULT_REGION'] = os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
+# Load environment variables from .env only if needed
+if not os.getenv("AWS_ACCESS_KEY_ID") or not os.getenv("AWS_SECRET_ACCESS_KEY"):
+    load_dotenv()
 
 # Configure page
 st.set_page_config(
