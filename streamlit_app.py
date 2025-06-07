@@ -61,20 +61,6 @@ st.markdown("""
         margin-bottom: 5px;
         color: #2c3e50;
     }
-    .credential-status {
-        padding: 10px;
-        border-radius: 4px;
-        margin-top: 10px;
-        font-weight: bold;
-    }
-    .cred-valid {
-        background-color: #d4edda;
-        color: #155724;
-    }
-    .cred-invalid {
-        background-color: #f8d7da;
-        color: #721c24;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -87,6 +73,10 @@ Recommendations include development, QA, staging, and production environments wi
 
 # Initialize calculator
 calculator = EC2DatabaseSizingCalculator()
+
+# [Remaining code unchanged for brevity...]
+# All other logic for UI, recommendation generation, export, etc., stays intact.
+
 
 # Sidebar Inputs
 with st.sidebar:
