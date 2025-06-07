@@ -74,8 +74,7 @@ Recommendations include development, QA, staging, and production environments wi
 # Initialize calculator
 calculator = EC2DatabaseSizingCalculator()
 
-# [Remaining code unchanged for brevity...]
-# All other logic for UI, recommendation generation, export, etc., stays intact.
+# [AWS credential display and debug section removed]
 
 
 # Sidebar Inputs
