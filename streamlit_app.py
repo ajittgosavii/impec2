@@ -89,54 +89,6 @@ with st.sidebar:
         help="Select the AWS region for pricing and deployment"
     )
     
-    # Credential information
-    st.subheader("AWS Credentials")
-    st.markdown("""
-    Credentials are sourced from:
-    - IAM role (when deployed on AWS)
-    - Environment variables
-    - ~/.aws/credentials file
-    """)
-    
-    # Check credential status with detailed diagnostics
-    cred_status, cred_message = calculator.validate_aws_credentials(region)
-    status_class = "cred-valid" if cred_status else "cred-invalid"
-    status_text = "✅ " + cred_message if cred_status else "⚠️ " + cred_message
-    st.markdown(f'<div class="credential-status {status_class}">{status_text}</div>', unsafe_allow_html=True)
-    
-    if not cred_status:
-        # Show credential debug information
-        with st.expander("Credential Debug Information", expanded=True):
-            st.write("Current environment variables:")
-            st.code(f"""
-            AWS_ACCESS_KEY_ID: {'*****' if os.environ.get('AWS_ACCESS_KEY_ID') else 'Not set'}
-            AWS_SECRET_ACCESS_KEY: {'*****' if os.environ.get('AWS_SECRET_ACCESS_KEY') else 'Not set'}
-            AWS_DEFAULT_REGION: {os.environ.get('AWS_DEFAULT_REGION', 'Not set')}
-            """)
-            
-            st.write("AWS configuration files:")
-            # Platform-independent path handling
-            if os.name == 'nt':  # Windows
-                aws_dir = os.path.join(os.environ.get('USERPROFILE', ''), '.aws')
-            else:  # Linux/Mac
-                aws_dir = os.path.join(os.path.expanduser("~"), '.aws')
-                
-            aws_files = [
-                os.path.join(aws_dir, "credentials"),
-                os.path.join(aws_dir, "config")
-            ]
-            
-            for file in aws_files:
-                if os.path.exists(file):
-                    st.success(f"Found: {file}")
-                    try:
-                        with open(file, 'r') as f:
-                            content = f.read(500)
-                        st.code(content)
-                    except Exception as e:
-                        st.warning(f"Could not read file: {str(e)}")
-                else:
-                    st.warning(f"Not found: {file}")
     
     st.header("Input Parameters")
     st.markdown("Enter your current on-premise SQL Server metrics:")
