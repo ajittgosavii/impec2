@@ -1,0 +1,7 @@
+# requirements.txt
+streamlit
+pandas
+python-docx
+requests
+boto3
+python-dotenv
