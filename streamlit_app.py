@@ -12,12 +12,10 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Configure AWS credentials from environment
-if 'AWS_ACCESS_KEY_ID' in os.environ and 'AWS_SECRET_ACCESS_KEY' in os.environ:
-    os.environ['AWS_ACCESS_KEY_ID'] = os.getenv('AWS_ACCESS_KEY_ID')
-    os.environ['AWS_SECRET_ACCESS_KEY'] = os.getenv('AWS_SECRET_ACCESS_KEY')
-    if 'AWS_DEFAULT_REGION' not in os.environ:
-        os.environ['AWS_DEFAULT_REGION'] = os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
+# Set AWS credentials from .env file
+os.environ['AWS_ACCESS_KEY_ID'] = os.getenv('AWS_ACCESS_KEY_ID', '')
+os.environ['AWS_SECRET_ACCESS_KEY'] = os.getenv('AWS_SECRET_ACCESS_KEY', '')
+os.environ['AWS_DEFAULT_REGION'] = os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
 
 # Configure page
 st.set_page_config(
@@ -116,7 +114,7 @@ with st.sidebar:
     """)
     
     # Check credential status with detailed diagnostics
-    cred_status, cred_message = calculator.validate_aws_credentials()
+    cred_status, cred_message = calculator.validate_aws_credentials(region)
     status_class = "cred-valid" if cred_status else "cred-invalid"
     status_text = "✅ " + cred_message if cred_status else "⚠️ " + cred_message
     st.markdown(f'<div class="credential-status {status_class}">{status_text}</div>', unsafe_allow_html=True)
@@ -132,10 +130,9 @@ with st.sidebar:
             """)
             
             st.write("AWS configuration files:")
-            # With this Windows-compatible version:
-            aws_files = []
+            # Platform-independent path handling
             if os.name == 'nt':  # Windows
-                aws_dir = os.path.join(os.environ.get('USERPROFILE'), '.aws')
+                aws_dir = os.path.join(os.environ.get('USERPROFILE', ''), '.aws')
             else:  # Linux/Mac
                 aws_dir = os.path.join(os.path.expanduser("~"), '.aws')
                 

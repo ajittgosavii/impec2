@@ -135,11 +135,11 @@ class EC2DatabaseSizingCalculator:
         self.last_fetch_time = 0
         self.recommendation_cache = {}
     
-    def validate_aws_credentials(self):
+    def validate_aws_credentials(self, region=None):
         """Check if valid AWS credentials are available with detailed diagnostics"""
         try:
-            # Explicitly set region for credential validation
-            region = self.inputs.get("region", "us-east-1")
+            # Use provided region or default to us-east-1
+            region = region or self.inputs.get("region", "us-east-1")
             sts = boto3.client('sts', region_name=region)
             identity = sts.get_caller_identity()
             
